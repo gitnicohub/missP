@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progetto Smoke Style</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-scene" class="scene active">
+        <div class="cigarette-login-box">
+            <div class="filter-marlboro"></div>
+            <div class="body-paper">
+                <h2>Accedi, Paola!!!!</h2>
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button onclick="effettuaLogin()">Accedi</button>
+                <p id="error-msg"></p>
+            </div>
+            </div>
+    </div>
+
+    <div id="smoke-scene" class="scene">
+        <div class="vertical-cigarette-container">
+             <div class="smoke-emitter">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            
+            <div class="vertical-cigarette">
+                 <div class="v-ember-tip"></div>
+                <div class="v-body-paper"></div>
+                 <div class="gold-ring"></div>
+                <div class="v-filter-marlboro"></div>
+            </div>
+        </div>
+        <button class="smoke-btn" onclick="fumaSigaretta()">Fuma la sigaretta</button>
+    </div>
+
+    <div id="explosion-scene" class="scene">
+        <div id="explosion-effect"></div>
+        
+        <div class="content-reveal">
+            <img src="assets/foto.jpg" alt="Foto Finale" class="final-photo">
+            <br>
+            <a href="assets/file.pdf" download class="download-btn">Scarica PDF</a>
+        </div>
+    </div>
+
+    <audio id="bg-music" src="assets/musica.mp3"></audio>
+      <audio id="error-sound" src="assets/errore.mp3"></audio>
+</body>
+</html>

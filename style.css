@@ -1,0 +1,266 @@
+/* --- RESET E BASE --- */
+:root {
+    /* Colori stile Marlboro */
+    --cork-base: #E2B985;
+    --cork-speckle: #8B4513;
+    --paper-white: #FDFDFD;
+    --gold-ring: #C8A428;
+    --ember-red: #FF4500;
+    --ash-gray: #B0B0B0;
+    --smoke-color: rgba(220, 220, 220, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #2c2c2c; /* Sfondo iniziale scuro */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- GESTIONE SCENE --- */
+.scene {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0; left: 0;
+    /* Aggiungiamo un leggero overlay per far risaltare il fumo */
+    background: radial-gradient(circle at center, #444 0%, #2c2c2c 70%);
+}
+
+.scene.active { display: flex; }
+
+
+/* --- SCENA 1: LOGIN STILE SIGARETTA --- */
+.cigarette-login-box {
+    display: flex;
+    width: 90%; max-width: 600px; height: 160px;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.6);
+    border-radius: 8px; /* Leggermente arrotondata */
+    overflow: hidden;
+}
+
+/* Texture Filtro Orizzontale */
+.filter-marlboro {
+    width: 30%; height: 100%;
+    background-color: var(--cork-base);
+    /* Trucco per i puntini del sughero */
+    background-image: radial-gradient(var(--cork-speckle) 1px, transparent 1px);
+    background-size: 6px 6px;
+    border-right: 4px solid var(--gold-ring); /* Anello dorato */
+}
+
+.body-paper {
+    background-color: var(--paper-white);
+    width: 70%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 20px;
+    border-left: 1px solid #eee;
+}
+
+.body-paper h2 { margin-bottom: 15px; color: #333; }
+
+.body-paper input {
+    margin: 5px; padding: 10px;
+    border: 1px solid #ccc; border-radius: 4px;
+    width: 85%; outline: none;
+}
+
+.body-paper button {
+    margin-top: 15px; padding: 10px 30px;
+    background-color: #d12e2e; /* Rosso stile pacchetto */
+    color: white; border: none; font-weight: bold;
+    cursor: pointer; border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.body-paper button:hover { background-color: #a01c1c; }
+#error-msg { color: red; font-size: 0.8rem; margin-top: 5px; }
+
+
+/* --- SCENA 2: SIGARETTA VERTICALE E FUMO --- */
+.vertical-cigarette-container {
+    position: relative;
+    display: flex; justify-content: center;
+    margin-bottom: 50px;
+}
+
+.vertical-cigarette {
+    width: 45px; height: 320px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    border-radius: 4px; /* Punta leggermente arrotondata */
+    overflow: hidden;
+}
+
+/* La punta accesa */
+.v-ember-tip {
+    height: 5%;
+    background: linear-gradient(to top, var(--ash-gray), var(--ember-red));
+    box-shadow: 0 -5px 15px var(--ember-red); /* Bagliore */
+    animation: emberPulse 2s infinite alternate;
+}
+
+@keyframes emberPulse {
+    from { box-shadow: 0 -2px 5px var(--ember-red); opacity: 0.8; }
+    to { box-shadow: 0 -6px 20px var(--ember-red); opacity: 1; }
+}
+
+.v-body-paper {
+    height: 65%; background-color: var(--paper-white);
+}
+
+.gold-ring {
+    height: 2%; background-color: var(--gold-ring);
+}
+
+.v-filter-marlboro {
+    height: 28%;
+    background-color: var(--cork-base);
+    background-image: radial-gradient(var(--cork-speckle) 1px, transparent 1px);
+    background-size: 5px 5px;
+}
+
+/* BOTTONE FUMA */
+.smoke-btn {
+    padding: 15px 40px; font-size: 1.3rem;
+    background-color: #d12e2e; color: white;
+    border: none; border-radius: 50px; font-weight: bold;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: transform 0.2s, background-color 0.3s;
+}
+.smoke-btn:hover { background-color: #ff4500; }
+.smoke-btn:active { transform: scale(0.95); }
+
+
+/* --- ANIMAZIONE FUMO --- */
+.smoke-emitter {
+    position: absolute;
+    top: -20px; /* Appena sopra la sigaretta */
+    left: 50%; transform: translateX(-50%);
+    width: 40px; height: 40px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.smoke-emitter span {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 15px; height: 15px;
+    background-color: var(--smoke-color);
+    border-radius: 50%;
+    filter: blur(8px); /* Fondamentale per l'effetto vapore */
+    opacity: 0;
+    animation: smokeRise 4s linear infinite;
+}
+
+/* Assegniamo ritardi diversi ai vari "sbuffi" di fumo */
+.smoke-emitter span:nth-child(1) { animation-delay: 0.2s; transform: scale(1); }
+.smoke-emitter span:nth-child(2) { animation-delay: 0.8s; transform: scale(1.2); }
+.smoke-emitter span:nth-child(3) { animation-delay: 1.5s; transform: scale(0.8); }
+.smoke-emitter span:nth-child(4) { animation-delay: 2.1s; transform: scale(1.5); }
+.smoke-emitter span:nth-child(5) { animation-delay: 2.7s; transform: scale(1.1); }
+.smoke-emitter span:nth-child(6) { animation-delay: 3.2s; transform: scale(0.9); }
+.smoke-emitter span:nth-child(7) { animation-delay: 3.8s; transform: scale(1.3); }
+.smoke-emitter span:nth-child(8) { animation-delay: 4.2s; transform: scale(1.0); }
+
+
+@keyframes smokeRise {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        transform: translateX(-50%) scale(0.5);
+    }
+    20% {
+        opacity: 0.7;
+    }
+    50% {
+        /* Il fumo si sposta leggermente a destra e sinistra mentre sale */
+        transform: translateX(calc(-50% + 15px)) scale(2);
+    }
+    100% {
+        opacity: 0;
+        bottom: 200px; /* Altezza massima del fumo */
+        transform: translateX(calc(-50% - 20px)) scale(3);
+        filter: blur(15px);
+    }
+}
+
+
+/* --- SCENA 3: ESPLOSIONE E FINALE (Prevalentemente invariata) --- */
+#explosion-scene { background-color: black; }
+
+#explosion-effect {
+    position: absolute; width: 0; height: 0; border-radius: 50%;
+    /* Gradiente più "esplosivo" */
+    background: radial-gradient(circle, #fff 0%, #ffaa00 30%, #ff0000 60%, transparent 100%);
+    opacity: 0; pointer-events: none; z-index: 20;
+}
+
+.explode-anim { animation: boom 1.2s cubic-bezier(0.1, 0.7, 0.1, 1) forwards; }
+
+@keyframes boom {
+    0% { width: 0; height: 0; opacity: 1; }
+    60% { width: 250vmax; height: 250vmax; opacity: 0.9; }
+    100% { width: 300vmax; height: 300vmax; opacity: 0; }
+}
+
+.content-reveal {
+    opacity: 0; text-align: center; transition: opacity 3s ease-in; z-index: 15; width: 90%;
+}
+.show-content { opacity: 1; }
+
+.final-photo {
+    max-width: 100%; max-height: 60vh;
+    border: 3px solid #fff; box-shadow: 0 0 30px rgba(255,255,255,0.5);
+    margin-bottom: 30px;
+}
+
+.download-btn {
+    display: inline-block; padding: 15px 40px;
+    background-color: #d12e2e; color: white;
+    text-decoration: none; font-size: 1.2rem; font-weight: bold;
+    border-radius: 4px; animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(209, 46, 46, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(209, 46, 46, 0.4); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(209, 46, 46, 0.7);}
+}
+
+
+/* --- RESPONSIVE PER CELLULARI --- */
+@media (max-width: 600px) {
+    /* Login Box diventa verticale su mobile */
+    .cigarette-login-box {
+        flex-direction: column; height: auto;
+    }
+    .filter-marlboro {
+        width: 100%; height: 50px;
+        border-right: none;
+        border-bottom: 4px solid var(--gold-ring);
+         /* Ruota la texture per l'orientamento orizzontale */
+        background-size: 6px 6px;
+    }
+    .body-paper { width: 100%; border-left: none; }
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
