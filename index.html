@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progetto Smoke Style</title>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div id="login-scene" class="scene active">
@@ -19,22 +21,66 @@
                 <button onclick="effettuaLogin()">Accedi</button>
                 <p id="error-msg"></p>
             </div>
+        </div>
+    </div>
+
+    <div id="game-scene" class="scene">
+        <div class="game-container">
+            <!-- Mappa/Terreno -->
+            <div class="game-ground"></div>
+
+            <!-- Edificio "Particolare" -->
+            <div class="phallic-building">
+                <div class="ball left-ball"></div>
+                <div class="ball right-ball"></div>
+                <div class="shaft">
+                    <div class="door"></div>
+                    <div class="window"></div>
+                </div>
+                <div class="tip"></div>
             </div>
+
+            <!-- Oggetto Indizio -->
+            <div class="hint-item" id="hint-object">?</div>
+
+            <!-- Personaggio -->
+            <div class="character" id="player">
+                <div class="char-body"></div>
+                <div class="char-head"></div>
+            </div>
+
+            <!-- UI Dialogo -->
+            <div class="game-ui" id="game-dialog">
+                <p id="dialog-text">Benvenuto! Usa le frecce per muoverti.</p>
+                <input type="text" id="secret-word-input" placeholder="Parola segreta..." style="display: none;">
+                <button id="submit-word-btn" style="display: none;">Conferma</button>
+                <button id="close-dialog-btn">Chiudi</button>
+            </div>
+        </div>
+
+        <div class="mobile-controls">
+            <button id="btn-up">▲</button>
+            <div class="horizontal-btns">
+                <button id="btn-left">◀</button>
+                <button id="btn-down">▼</button>
+                <button id="btn-right">▶</button>
+            </div>
+        </div>
     </div>
 
     <div id="smoke-scene" class="scene">
         <div class="vertical-cigarette-container">
-             <div class="smoke-emitter">
+            <div class="smoke-emitter">
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span>
             </div>
-            
+
             <div class="vertical-cigarette">
-                 <div class="v-ember-tip"></div>
+                <div class="v-ember-tip"></div>
                 <div class="v-body-paper"></div>
-                 <div class="gold-ring"></div>
+                <div class="gold-ring"></div>
                 <div class="v-filter-marlboro"></div>
             </div>
         </div>
@@ -43,7 +89,7 @@
 
     <div id="explosion-scene" class="scene">
         <div id="explosion-effect"></div>
-        
+
         <div class="content-reveal">
             <img src="assets/foto.jpg" alt="Foto Finale" class="final-photo">
             <br>
@@ -52,6 +98,7 @@
     </div>
 
     <audio id="bg-music" src="assets/musica.mp3"></audio>
-      <audio id="error-sound" src="assets/errore.mp3"></audio>
+    <audio id="error-sound" src="assets/errore.mp3"></audio>
 </body>
+
 </html>

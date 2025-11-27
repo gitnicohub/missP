@@ -121,129 +121,6 @@ body {
 
 
 /* --- SCENA 2: SIGARETTA VERTICALE E FUMO --- */
-/* --- RESET E BASE --- */
-:root {
-    /* Colori stile Marlboro */
-    --cork-base: #E2B985;
-    --cork-speckle: #8B4513;
-    --paper-white: #FDFDFD;
-    --gold-ring: #C8A428;
-    --ember-red: #FF4500;
-    --ash-gray: #B0B0B0;
-    --smoke-color: rgba(220, 220, 220, 0.4);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-}
-
-body {
-    background-color: #2c2c2c;
-    /* Sfondo iniziale scuro */
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-/* --- GESTIONE SCENE --- */
-.scene {
-    display: none;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* Aggiungiamo un leggero overlay per far risaltare il fumo */
-    background: radial-gradient(circle at center, #444 0%, #2c2c2c 70%);
-}
-
-.scene.active {
-    display: flex;
-}
-
-
-/* --- SCENA 1: LOGIN STILE SIGARETTA --- */
-.cigarette-login-box {
-    display: flex;
-    width: 90%;
-    max-width: 600px;
-    height: 160px;
-    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.6);
-    border-radius: 8px;
-    /* Leggermente arrotondata */
-    overflow: hidden;
-}
-
-/* Texture Filtro Orizzontale */
-.filter-marlboro {
-    width: 30%;
-    height: 100%;
-    background-color: var(--cork-base);
-    /* Trucco per i puntini del sughero */
-    background-image: radial-gradient(var(--cork-speckle) 1px, transparent 1px);
-    background-size: 6px 6px;
-    border-right: 4px solid var(--gold-ring);
-    /* Anello dorato */
-}
-
-.body-paper {
-    background-color: var(--paper-white);
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    border-left: 1px solid #eee;
-}
-
-.body-paper h2 {
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.body-paper input {
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 85%;
-    outline: none;
-}
-
-.body-paper button {
-    margin-top: 15px;
-    padding: 10px 30px;
-    background-color: #d12e2e;
-    /* Rosso stile pacchetto */
-    color: white;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.body-paper button:hover {
-    background-color: #a01c1c;
-}
-
-#error-msg {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 5px;
-}
-
-
-/* --- SCENA 2: SIGARETTA VERTICALE E FUMO --- */
 .vertical-cigarette-container {
     position: relative;
     display: flex;
@@ -366,6 +243,11 @@ body {
 
     /* Animazione base */
     animation: realisticSmokeRise 5s linear infinite;
+    animation-play-state: paused;
+}
+
+.vertical-cigarette-container.smoking .smoke-emitter span {
+    animation-play-state: running;
 }
 
 /* TRUCCO 3: VARIANZA (Fondamentale per il realismo)
@@ -677,4 +559,288 @@ body {
     100% {
         transform: translateX(0);
     }
+}
+
+/* --- SCENA GIOCO (POKEMON STYLE) --- */
+#game-scene {
+    background-color: #5c94fc;
+    /* Cielo */
+    position: relative;
+    overflow: hidden;
+}
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #74c365;
+    /* Erba */
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+/* Mappa/Terreno - Pattern erba */
+.game-ground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(45deg, #6ab05c 25%, transparent 25%, transparent 75%, #6ab05c 75%, #6ab05c),
+        linear-gradient(45deg, #6ab05c 25%, transparent 25%, transparent 75%, #6ab05c 75%, #6ab05c);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    opacity: 0.3;
+}
+
+/* EDIFICIO "PARTICOLARE" */
+.phallic-building {
+    position: absolute;
+    top: 15%;
+    /* Alzato un po' */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 320px;
+    z-index: 5;
+}
+
+.shaft {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 240px;
+    /* Gradiente pelle realistico con ombreggiatura cilindrica */
+    background: linear-gradient(to right, #eac0b6, #f5d0c5 40%, #f5d0c5 60%, #dcb0a6);
+    border: none;
+    border-radius: 10px 10px 0 0;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    box-shadow: inset 5px 0 10px rgba(0, 0, 0, 0.1), inset -5px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Vene */
+.shaft::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    box-shadow: 2px 2px 0 0 rgba(160, 80, 80, 0.1);
+    transform: rotate(-20deg);
+    pointer-events: none;
+}
+
+.shaft::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    right: 25%;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    box-shadow: -2px 2px 0 0 rgba(139, 69, 19, 0.1);
+    /* Colore vena leggero */
+    transform: rotate(10deg);
+    pointer-events: none;
+}
+
+.ball {
+    position: absolute;
+    bottom: -15px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, #f5d0c5, #eac0b6, #cfa096);
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.left-ball {
+    left: -10px;
+}
+
+.right-ball {
+    right: -10px;
+}
+
+.tip {
+    position: absolute;
+    top: -10px;
+    /* Sovrappone leggermente */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    /* Leggermente più largo dell'asta (fungo) */
+    height: 75px;
+    background: radial-gradient(circle at 40% 20%, #fbcbcb, #f0a0a0, #d67c7c);
+    border-radius: 40px 40px 25px 25px;
+    z-index: 7;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    border-bottom: 3px solid rgba(180, 80, 80, 0.1);
+    /* Solco */
+}
+
+.door {
+    width: 46px;
+    height: 70px;
+    background: linear-gradient(to bottom, #3e2723, #5d4037);
+    border: 3px solid #281915;
+    border-radius: 30px 30px 0 0;
+    /* Arrotondata sopra (uretra style) */
+    margin-bottom: 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* PERSONAGGIO */
+.character {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    /* Placeholder colore */
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: top 0.1s linear, left 0.1s linear;
+}
+
+.char-body {
+    width: 100%;
+    height: 100%;
+    background-color: #ff0000;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.char-head {
+    position: absolute;
+    top: -15px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: #ffccaa;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+/* OGGETTO INDIZIO */
+.hint-item {
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    width: 30px;
+    height: 30px;
+    background-color: gold;
+    border: 2px solid orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #333;
+    animation: bounce 2s infinite;
+    z-index: 4;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* UI DIALOGO */
+.game-ui {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+    border: 4px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    z-index: 100;
+    display: none;
+    /* Nascosto di default */
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.game-ui.active {
+    display: flex;
+}
+
+.game-ui p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.game-ui input {
+    padding: 5px;
+    font-size: 1rem;
+}
+
+.game-ui button {
+    padding: 5px 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* CONTROLLI MOBILE */
+.mobile-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 99;
+}
+
+.horizontal-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.mobile-controls button {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #333;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: flex;
+    }
+
+    .game-ui {
+        bottom: 150px;
+    }
+
+    /* Sposta dialogo sopra i controlli */
 }
