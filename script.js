@@ -17,7 +17,7 @@ function effettuaLogin() {
     } else {
         // Mostra errore se le credenziali sono sbagliate
         errorMsg.textContent = "Ma allora sei proprio una lurida! Scrivi meglio porcodeddio!";
-        
+
         // (Opzionale) Aggiunge un'animazione di 'scossa' al box se sbagliano
         const loginBox = document.querySelector('.cigarette-login-box');
         loginBox.style.animation = "shake 0.5s ease";
@@ -26,24 +26,31 @@ function effettuaLogin() {
 }
 
 function fumaSigaretta() {
-    // 1. Passa alla scena finale (sfondo nero)
-    cambiaScena('smoke-scene', 'explosion-scene');
-    
-    // 2. Avvia l'animazione dell'esplosione CSS
-    const explosion = document.getElementById('explosion-effect');
-    explosion.classList.remove('explode-anim');
-    void explosion.offsetWidth; // Trigger reflow per riavviare animazione
-    explosion.classList.add('explode-anim');
+    // 1. Avvia l'animazione della sigaretta che si consuma
+    const container = document.querySelector('.vertical-cigarette-container');
+    container.classList.add('smoking');
 
-    // 3. Riproduci Musica
-    const audio = document.getElementById('bg-music');
-    audio.volume = 0.6;
-    audio.play().catch(e => console.log("Errore riproduzione audio: " + e));
-
-    // 4. Mostra il contenuto finale dopo l'esplosione
+    // 2. Attendi la fine dell'animazione (4 secondi) prima dell'esplosione
     setTimeout(() => {
-        document.querySelector('.content-reveal').classList.add('show-content');
-    }, 1000);
+        // Passa alla scena finale (sfondo nero)
+        cambiaScena('smoke-scene', 'explosion-scene');
+
+        // Avvia l'animazione dell'esplosione CSS
+        const explosion = document.getElementById('explosion-effect');
+        explosion.classList.remove('explode-anim');
+        void explosion.offsetWidth; // Trigger reflow per riavviare animazione
+        explosion.classList.add('explode-anim');
+
+        // Riproduci Musica
+        const audio = document.getElementById('bg-music');
+        audio.volume = 0.6;
+        audio.play().catch(e => console.log("Errore riproduzione audio: " + e));
+
+        // Mostra il contenuto finale dopo l'esplosione
+        setTimeout(() => {
+            document.querySelector('.content-reveal').classList.add('show-content');
+        }, 1000);
+    }, 4000); // Durata animazione fumo
 }
 
 // Funzione di utilità per gestire le scene
