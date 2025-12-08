@@ -119,6 +119,17 @@ function showDialog(text, showInput = false) {
         secretInput.style.display = 'block';
         submitBtn.style.display = 'inline-block';
         closeBtn.style.display = 'none';
+        // Assicura che esista un contenitore per il messaggio di errore
+        const errorId = 'secret-error-msg';
+        let errorElem = document.getElementById(errorId);
+        if (!errorElem) {
+            errorElem = document.createElement('div');
+            errorElem.id = errorId;
+            errorElem.style.color = '#f66';
+            errorElem.style.marginTop = '8px';
+            if (secretInput && secretInput.parentNode) secretInput.parentNode.insertBefore(errorElem, secretInput.nextSibling);
+        }
+        errorElem.textContent = '';
         secretInput.focus();
     } else {
         secretInput.style.display = 'none';
@@ -151,11 +162,25 @@ function checkSecretWord() {
         gameActive = false;
         // fumaSigaretta() removed; waits for user click
     } else {
-        alert("La porta rimane chiusa. La voce ride: 'Sbagliato!'");
+        // Mostra messaggio di errore all'interno del dialog e permette di riprovare
+        const errorId = 'secret-error-msg';
+        let errorElem = document.getElementById(errorId);
+        if (!errorElem) {
+            errorElem = document.createElement('div');
+            errorElem.id = errorId;
+            errorElem.style.color = '#f66';
+            errorElem.style.marginTop = '8px';
+            if (secretInput && secretInput.parentNode) secretInput.parentNode.insertBefore(errorElem, secretInput.nextSibling);
+        }
+        errorElem.textContent = 'Parola sbagliata — riprova.';
+
+        // pulisce input e riporta il focus per il retry
         secretInput.value = '';
-        closeDialog();
-        playerY += 10; // Sposta indietro
-        updatePlayerPos();
+        secretInput.focus();
+
+        // piccolo feedback visivo (usa la stessa animation "shake" se definita nel CSS)
+        secretInput.style.animation = 'shake 0.35s ease';
+        setTimeout(() => { secretInput.style.animation = 'none'; }, 350);
     }
 }
 
