@@ -151,6 +151,7 @@ function showHintDialog() {
 function showDoorDialog() {
     showDialog("La porta è chiusa. Una voce dice: 'Qual è la tua parola preferita?'", true);
 }
+
 function checkSecretWord() {
     const secretInput = document.getElementById('secret-word-input');
     const word = secretInput.value.trim().toLowerCase();
@@ -158,9 +159,11 @@ function checkSecretWord() {
     if (word.startsWith('s')) {
         document.getElementById('game-dialog').classList.remove('active');
         alert("La porta si apre con un gemito...");
-        cambiaScena('game-scene', 'smoke-scene');
+
+        // Nuova sequenza: Esplosione -> Splash -> Cambio Scena
+        triggerPhallicExplosion();
+
         gameActive = false;
-        // fumaSigaretta() removed; waits for user click
     } else {
         // Mostra messaggio di errore all'interno del dialog e permette di riprovare
         const errorId = 'secret-error-msg';
@@ -216,4 +219,62 @@ function cambiaScena(idDaNascondere, idDaMostrare) {
     setTimeout(() => {
         if (elMostrare) elMostrare.classList.add('active');
     }, 100);
+}
+
+function triggerPhallicExplosion() {
+    const building = document.querySelector('.phallic-building');
+    const overlay = document.getElementById('splash-overlay');
+
+    // 1. Avvia animazione esplosione edificio
+    if (building) {
+        building.classList.add('building-exploding');
+    }
+
+    // 2. Attendi che l'esplosione finisca (ca. 800ms) poi mostra splash nero
+    setTimeout(() => {
+        if (overlay) {
+            overlay.style.display = 'block';
+            overlay.innerHTML = ''; // Pulisce precedenti
+
+            // Genera tante gocce
+            const dropCount = 400;
+            for (let i = 0; i < dropCount; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('splash-drop');
+
+                // Posizione casuale
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+
+                // Dimensione casuale
+                const size = 10 + Math.random() * 60; // 10px - 70px
+
+                drop.style.left = left + '%';
+                drop.style.top = top + '%';
+                drop.style.width = size + 'px';
+                drop.style.height = size + 'px';
+
+                // Ritardo casuale per effetto "pioggia/schizzo" progressivo
+                drop.style.animationDelay = (Math.random() * 0.3) + 's';
+
+                overlay.appendChild(drop);
+            }
+        }
+
+        // 3. Attendi 4 secondi di splash e poi cambia scena
+        setTimeout(() => {
+            // Pulisce effetto
+            if (overlay) {
+                overlay.style.display = 'none';
+                overlay.innerHTML = '';
+            }
+            if (building) {
+                building.classList.remove('building-exploding');
+            }
+
+            // Cambia scena
+            cambiaScena('game-scene', 'smoke-scene');
+        }, 4000);
+
+    }, 1000); // Ritardo avvio splash (tempo esplosione + margine)
 }
