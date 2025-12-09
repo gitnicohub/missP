@@ -19,6 +19,13 @@ function effettuaLogin() {
         // Mostra errore se le credenziali sono sbagliate
         errorMsg.textContent = "Ma allora sei proprio una lurida! Scrivi meglio porcodeddio!";
 
+        // Riproduci suono errore
+        const errorSound = document.getElementById('error-sound');
+        if (errorSound) {
+            errorSound.currentTime = 0;
+            errorSound.play().catch(e => console.log("Audio error play failed: ", e));
+        }
+
         // (Opzionale) Aggiunge un'animazione di 'scossa' al box se sbagliano
         const loginBox = document.querySelector('.cigarette-login-box');
         loginBox.style.animation = "shake 0.5s ease";
