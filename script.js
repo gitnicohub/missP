@@ -163,7 +163,7 @@ function checkSecretWord() {
     const secretInput = document.getElementById('secret-word-input');
     const word = secretInput.value.trim().toLowerCase();
 
-    if (word.startsWith('s')) {
+    if (word === 'stantuffo') {
         document.getElementById('game-dialog').classList.remove('active');
         alert("La porta si apre con un gemito...");
 
