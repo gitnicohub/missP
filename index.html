@@ -12,6 +12,7 @@
 <body>
 
     <div id="login-scene" class="scene active">
+        <canvas id="matrix-canvas"></canvas>
         <div class="cigarette-login-box">
             <div class="filter-marlboro"></div>
             <div class="body-paper">
@@ -21,6 +22,17 @@
                 <button onclick="effettuaLogin()">Accedi</button>
                 <p id="error-msg"></p>
             </div>
+        </div>
+    </div>
+
+    <!-- SCENA INTRO "KINGDOM SPERM" -->
+    <div id="intro-scene" class="scene">
+        <div class="intro-content">
+            <h1 class="intro-title">Kingdom Sperm</h1>
+            <p class="intro-text">C'è un castello fallico infestato che devi combattere e devi fare esplodere
+                indovinando la parola magica. Fate il vostro gioco!</p>
+            <div class="heart-decoration">♥</div>
+            <button id="start-game-btn" onclick="startFromIntro()">Continua</button>
         </div>
     </div>
 
@@ -102,6 +114,8 @@
 
     <audio id="bg-music" src="assets/musica.mp3" loop></audio>
     <audio id="error-sound" src="assets/errore.mp3"></audio>
+
+    <script src="matrix.js"></script>
 </body>
 
 </html>

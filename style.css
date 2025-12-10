@@ -38,6 +38,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2;
+    /* Sopra al canvas matrix (z-1) */
     /* Aggiungiamo un leggero overlay per far risaltare il fumo */
     background: radial-gradient(circle at center, #444 0%, #2c2c2c 70%);
 }
@@ -48,7 +50,23 @@ body {
 
 
 /* --- SCENA 1: LOGIN STILE SIGARETTA --- */
+/* --- SCENA 1: LOGIN STILE SIGARETTA --- */
+#matrix-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Sotto al login box */
+}
+
+/* Modifica rimossa: #login-scene background reset non servono più se il canvas è dentro */
+
 .cigarette-login-box {
+    position: relative;
+    z-index: 10;
+    /* Sopra al canvas */
     display: flex;
     width: 90%;
     max-width: 600px;
@@ -120,9 +138,111 @@ body {
 }
 
 
+/* --- SCENA INTRO: KINGDOM SPERM --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+#intro-scene {
+    background: radial-gradient(circle at center, #1a0b2e 0%, #000000 100%);
+    color: white;
+    font-family: 'Cinzel', serif;
+    /* Font stile Kingdom Hearts/Fantasy */
+    display: none;
+    /* Nascosto di default, gestito da .scene */
+}
+
+/* Override specifico per visualizzazione flex quando attivo */
+#intro-scene.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-content {
+    max-width: 700px;
+    padding: 50px;
+    text-align: center;
+    border: 2px solid #444;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    /* Sfondo semi-trasparente */
+    box-shadow: 0 0 30px rgba(100, 0, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cuore decorativo stile KH */
+.heart-decoration {
+    font-size: 3rem;
+    color: #ff0055;
+    margin: 20px 0;
+    text-shadow: 0 0 10px #ff0055;
+    animation: heartBeat 1.5s infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.intro-title {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    /* Effetto 'Glow' Kingdom Hearts */
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px #ff00de,
+        0 0 40px #ff00de;
+}
+
+.intro-text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Più leggibile per il testo lungo */
+    color: #ddd;
+}
+
+#start-game-btn {
+    padding: 15px 50px;
+    font-size: 1.5rem;
+    background-color: #28a745;
+    /* Verde richiesto */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#start-game-btn:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #28a745;
+}
+
+
 /* --- SCENA 2: SIGARETTA VERTICALE E FUMO --- */
 .vertical-cigarette-container {
     position: relative;
+    z-index: 10;
+    /* Assicura che stia sopra al canvas Matrix */
     display: flex;
     justify-content: center;
     margin-bottom: 50px;
@@ -191,6 +311,8 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s, background-color 0.3s;
+    position: relative;
+    z-index: 10;
 }
 
 .smoke-btn:hover {
@@ -604,7 +726,43 @@ body {
     width: 220px;
     height: 320px;
     z-index: 5;
+    transition: transform 0.5s ease-in;
+    /* Re-aggiungo transizione per zoom fluido */
 }
+
+/* Animazione Zoom In Veloce */
+.building-zoom {
+    transform: translateX(-50%) scale(5) !important;
+    /* Zoom mantenendo il centro */
+    z-index: 100;
+}
+
+/* Animazione Esplosione */
+.building-exploding {
+    animation: buildingBoom 0.8s forwards;
+}
+
+@keyframes buildingBoom {
+    0% {
+        transform: translateX(-50%) scale(5);
+        /* Parte dallo zoom */
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(6);
+        opacity: 0.8;
+        filter: brightness(10);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(8);
+        opacity: 0;
+        filter: blur(20px);
+    }
+}
+
 
 .shaft {
     position: absolute;
